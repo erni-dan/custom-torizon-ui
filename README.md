@@ -6,12 +6,12 @@ This repository contains the code for the custom web user interface (UI) of Tora
 
 Developers host machine has to be either
 
-* Windows (using WSL2 (Ubuntu)) <br/> 
+* Windows (using WSL2 (Ubuntu)) <br/>
 (For a detailed description see: [WSL](https://learn.microsoft.com/de-de/windows/wsl/setup/environment) )
 * or Ubuntu 20.x
+* at least one device provisioned for torizon.io
 
 Everything was setup up with [visualstudiocode](https://code.visualstudio.com/docs)
-
 
 ## Getting Started
 
@@ -24,6 +24,7 @@ To get started with the Toradex Custom Web UI, follow these steps:
    ```
 
 2. Install [node](https://nodejs.org/en/learn/getting-started/introduction-to-nodejs) and npm
+
    ```bash
     sudo apt install nodejs
     node -v 
@@ -34,10 +35,13 @@ To get started with the Toradex Custom Web UI, follow these steps:
     ```
 
 3. Install the nodejs dependencies
+
    ```
    npm install & npm update
    ```
+
    This should install the following packages:
+
    ```
     npm install express --save  //minimal web framework for routing and static files serving
     npm install nunjucks --save //html templates in jinja style
@@ -46,4 +50,4 @@ To get started with the Toradex Custom Web UI, follow these steps:
 4. Start the app
     node app.js
 
-5. Open your browser with [http://localhost:3000/](http://localhost:3000/) 
+5. Open your browser with [http://localhost:3000/](http://localhost:3000/)
