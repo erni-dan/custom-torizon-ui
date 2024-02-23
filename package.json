@@ -1,0 +1,16 @@
+{
+  "name": "nodejs-torizon-api",
+  "version": "1.0.0",
+  "description": "The nodejs torizon api server",
+  "main": "app.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Erni",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.7",
+    "express": "^4.18.2",
+    "nunjucks": "^3.2.4"
+  }
+}
