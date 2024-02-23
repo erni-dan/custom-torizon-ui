@@ -9,6 +9,7 @@ Developers host machine has to be either
 * Windows (using WSL2 (Ubuntu 20.x)) <br/>
 (For a detailed description see: [WSL](https://learn.microsoft.com/de-de/windows/wsl/setup/environment) )
 * or Ubuntu 20.x
+* IDE: [visualstudiocode](https://code.visualstudio.com/docs)
 
 Furthermore
 
@@ -18,8 +19,6 @@ Furthermore
 > [!IMPORTANT]  
 > Copy your API Bearer token into the variable "api_bearer_token" in file "torizon_api.js"
 
-
-Everything was setup up with [visualstudiocode](https://code.visualstudio.com/docs)
 
 ## Getting Started
 
@@ -53,7 +52,7 @@ To get started with the Toradex Custom Web UI, follow these steps:
     npm install nunjucks --save //html templates in jinja style
     npm install axios --save    //http requst with Bearer token to access the torizon API
 
-4. Start the app
+4. Copy your API Bearer token into the variable "api_bearer_token" in file "torizon_api.js"
 
 5. Start the app
     ```
