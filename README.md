@@ -1,6 +1,6 @@
 # Toradex Custom Web UI
 
-This repository contains the code for the custom web user interface (UI) of Toradex.
+This repository contains the code for the custom web user interface (UI) of the Torizon web API.
 
 ## Prerequisites
 
@@ -48,9 +48,9 @@ To get started with the Toradex Custom Web UI, follow these steps:
    This should install the following packages:
 
    ```
-    npm install express --save  //minimal web framework for routing and static files serving
-    npm install nunjucks --save //html templates in jinja style
-    npm install axios --save    //http requst with Bearer token to access the torizon API
+    npm install express --save  //[expressjs](https://expressjs.com/en/starter/hello-world.html) minimal web framework for routing and static files serving
+    npm install nunjucks --save //[nunjucks](https://mozilla.github.io/nunjucks/getting-started.html) html templates in jinja style
+    npm install axios --save    //[axios](https://axios-http.com/docs/intro) a promised based http client, supporting requests with Bearer token to access the torizon API
 
 4. Copy your API Bearer token into the variable "api_bearer_token" in file "torizon_api.js"
 

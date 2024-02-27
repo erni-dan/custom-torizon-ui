@@ -19,13 +19,13 @@ const torizon_api = axios.create({
 const requestTorizonAPI = async (endpoint, data = null, method = 'GET') => {
     switch (method) {
         case 'GET':
-            return await torizon_api.get(endpoint);
+            return torizon_api.get(endpoint);
         case 'POST':
-            return await torizon_api.post(endpoint, data);
+            return torizon_api.post(endpoint, data);
         case 'DELETE':
-            return await torizon_api.delete(endpoint + `/${data}`);
+            return torizon_api.delete(endpoint + `/${data}`);
         case 'PUT':
-            return await torizon_api.put(endpoint + `/${data}`);
+            return torizon_api.put(endpoint + `/${data}`);
         default:
             return null;
     }

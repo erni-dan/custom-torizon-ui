@@ -8,6 +8,9 @@
         integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
     <!-- Load plotly.js -->
     <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+    <link href="https://cdn.jsdelivr.net/npm/fastbootstrap@2.2.0/dist/css/fastbootstrap.min.css" rel="stylesheet"
+        integrity="sha256-V6lu+OdYNKTKTsVFBuQsyIlDiRWiOmtC8VQ8Lzdm2i4=" crossorigin="anonymous">
+
     <title>Document</title>
 </head>
 
@@ -28,22 +31,17 @@
             <div class="col-sm-1">
                 <div id="nav">
                     <ul class="nav flex-column">
-                        <li class="nav-item">
+                        <li class="nav-item mx-auto" style="margin-bottom: 10px;">
                             <a class="navbar-brand" href="https://www.betterask.erni/">
                                 <img src="/public/img/ERNI_Emblem.png" alt="erni" width="43.8" height="48" />
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <button type="button" class="btn btn-outline-danger btn-sm">
-                                Live
-                            </button>
-                        </li>
-                        <li class="nav-item">
-                            <a class="navbar-brand" href="#">
+                        <li class="nav-item mx-auto" style="margin-bottom: 10px;">
+                            <a class="navbar-brand" href="/">
                                 <img src="/public/img/home.png" alt="home" width="41" />
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item mx-auto">
                             <a class="navbar-brand" href="#">
                                 <img src="/public/img/device.png" alt="notifications" width="43.8" height="48" />
                             </a>
@@ -56,13 +54,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col">
-                                <ul class="nav">
-                                    <li class="nav-item">
-                                        <a class="navbar-brand" href="#">
-                                            <img src="/public/img/dummy.png" alt="dummy" />
-                                        </a>
-                                    </li>
-                                </ul>
+
                             </div>
                             <div class="col">
                                 <ul class="nav justify-content-end">
@@ -74,8 +66,8 @@
                                     </li>
                                     <li class="nav-item">
                                         <a class="navbar-brand" href="#">
-                                            <img src="/public/img/notifications.png" alt="notifications" title="Register for notifications dummy" width="43.8"
-                                                height="48" />
+                                            <img src="/public/img/notifications.png" alt="notifications"
+                                                title="Register for notifications dummy" width="43.8" height="48" />
                                         </a>
                                     </li>
                                 </ul>
@@ -83,204 +75,28 @@
                         </div>
                     </div>
                 </div>
-                <div id="device_info">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-sm">
-                                        <table style="font-size: 80%; color: #a4a7ac">
-                                            <tr>
-                                                <th colspan="2" style="color: #000000">Hardware</th>
-                                            </tr>
-                                            <tr>
-                                                <td>Device ID:</td>
-                                                <td>{{deviceId}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Uuid:</td>
-                                                <td>{{deviceUuid}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Last seen:</td>
-                                                <td>{{lastSeen}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Created:</td>
-                                                <td>{{createdAt}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Activated:</td>
-                                                <td>{{activatedAt}}</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <div class="col-sm">
-                                        <table style="font-size: 80%; color: #a4a7ac">
-                                            <tr>
-                                                <th colspan="2" style="color: #000000">Networks</th>
-                                            </tr>
-                                            <tr>
-                                                <td>Hostname:</td>
-                                                <td>{{networkInfo.hostname}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Local IPv4:</td>
-                                                <td>{{networkInfo.localIpV4}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Mac:</td>
-                                                <td>{{networkInfo.macAddress}}</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <div class="col-sm">
-                                        <table style="font-size: 80%; color: #a4a7ac">
-                                            <tr>
-                                                <th colspan="2" style="color: #000000">Fleets</th>
-                                            </tr>
-                                            {% if deviceFleets|length %}
-                                            {% for fleet in deviceFleets %}
-                                            <tr>
-                                                <td>Name:</td>
-                                                <td>{{fleet.name}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Created:</td>
-                                                <td>{{fleet.createdAt}}</td>
-                                            </tr>
-                                            {% endfor %}
-                                            {% else %}
-                                            <tr></tr>
-                                            <td>none</td>
-                                            </tr>
-                                            {% endif %}
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div id="application_data">
-                    <div class="card-deck">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 id="dummy_model_title">Live Preview</h5>
-                                <div id="dummy_model">
-                                    <video src="/public/img/0001-0350.mkv" type="video/mp4" class="card-img-top" muted
-                                        autoplay loop></video>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-body">
+                    <div class="container">
+                        <div class="row">
+                            {% for device in values %}
+                            <div class="col-sm-4">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title">Sensors</h5>
-                                        <p class="card-text">
-                                            sensor 1:
-                                            <span id="dummy_data_1"></span> <br />
-                                            sensor 2:
-                                            <span id="dummy_data_2"></span> <br />
-                                            sensor 3:
-                                            <span id="dummy_data_3"></span> <br />
-                                            sensor 4:
-                                            <span id="dummy_data_4"></span> <br />
-                                        </p>
+                                        <p class="card-text">{{device.deviceName}}</p>
+                                        <p class="card-text">Device description ...</p>
+                                        <a class="stretched-link" href="/device?device_id={{device.deviceUuid}}"
+                                            style="color: white;">Go to device</a>
                                     </div>
                                 </div>
-                                <div class="card">
+                            </div>
+                            {% endfor %}
+                            <div class="col-sm-4">
+                                <div class="card border border-dashed border-2 text-center">
                                     <div class="card-body">
-                                        <h5 class="card-title">Temperature</h5>
-                                        <!-- Create a div for the graph -->
-                                        <div class="responsive-plot" id="temp_plot"></div>
+                                        <p class="card-text"> </p>
+                                        <a href="#" class="btn btn-light rounded-circle stretched-link">+</a>
+                                        <p class="card-text">add new device</p>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="update">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5>
-                                Update
-                                <span class="update_state" style="font-size: 60%; color: #26BF00"><img
-                                        src="/public/img/ok.png" /> No pending updates
-                                </span>
-                            </h5>
-                            <div id="update-buttons">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="dropdown">
-                                                <button class="btn btn-outline-secondary border-0 dropdown-toggle"
-                                                    type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
-                                                    Update 1
-                                                </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <a class="dropdown-item" href="#">Update_1</a>
-                                                    <a class="dropdown-item" href="#">Update_2</a>
-                                                    <a class="dropdown-item" href="#">Update_x</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <button type="button" class="btn btn-primary btn-sm float-right"
-                                                style="border-radius: 12px">
-                                                <img src="/public/img/upload.png" /> Update
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <h5>
-                                Update Status
-                                <span class="update_state" style="font-size: 60%; color: #26BF00"><img
-                                        src="/public/img/ok.png" />
-                                </span>
-                            </h5>
-                            <div class="container">
-                                <div class="row">
-                                    {% for pack in devicePackages %}
-                                    <div class="col-sm">
-                                        <table style="font-size: 80%; color: #a4a7ac">
-                                            <tr>
-                                                <th colspan="2" style="color: #000000">
-                                                    {% if 'bootloader' in pack.component %}
-                                                    Bootloader
-                                                    {% elif 'docker' in pack.component %}
-                                                    Application
-                                                    {% else %}
-                                                    OS
-                                                    {% endif %}  
-                                                </th>
-                                            </tr>
-                                            <tr>
-                                                <td>Type:</td>
-                                                <td>{{pack.component}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Name:</td>
-                                                <td>{{pack.name}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Version:</td>
-                                                <td>{{pack.version}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Hash:</td>
-                                                <td>{{pack.checksum | truncate(8) }}</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
@@ -289,53 +105,6 @@
             </div>
         </div>
     </div>
-
-    <script>
-        var temp_graph = {              
-            x: [{{ temp_x }}],
-            y: [{{ temp_y }}],
-        type: 'scatter'
-        };
-
-        var layout = {
-            minreducedwidth: 200,
-            height: 250,
-            margin: {
-                t: 0
-            },
-            autosize: true // set autosize to rescale
-        };
-
-        var config = {
-            'displayModeBar': false // set to false to hide the icons on top of the graph
-        }
-
-        var plot_data = [temp_graph];
-        Plotly.newPlot('temp_plot', plot_data, layout, config);
-
-        // update the layout to expand to the available size when the window is resized
-        window.onresize = function () {
-            Plotly.relayout('temp_plot', {
-                'xaxis.autorange': true,
-                'yaxis.autorange': true,
-            });
-        };
-    </script>
-
-    <script>
-        var interval = 1000; // 1000 = 1 second, 3000 = 3 seconds
-        function generate_dummydata() {
-            number1 = Math.floor(Math.random() * 100 + 1);
-            number2 = Math.floor(Math.random() * 100 + 1);
-            number3 = Math.floor(Math.random() * 100 + 1);
-            document.getElementById("dummy_data_1").innerHTML = number1;
-            document.getElementById("dummy_data_2").innerHTML = number2;
-            document.getElementById("dummy_data_3").innerHTML = number3;
-            document.getElementById("dummy_data_4").innerHTML =
-                number1 + number2 + number3;
-        }
-        setInterval(generate_dummydata, interval);
-    </script>
 </body>
 
 </html>
