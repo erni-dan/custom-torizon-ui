@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="/public/lib/bootstrap.min.css" rel="stylesheet" />    
     <link href="/public/lib/fastbootstrap.min.css" rel="stylesheet" >
-
+    <link href="/public/lib/custom.css" rel="stylesheet" >
 
     <title>Document</title>
 </head>
@@ -22,17 +22,17 @@
             <div class="col-sm-1">
                 <div id="nav">
                     <ul class="nav flex-column">
-                        <li class="nav-item mx-auto" style="margin-bottom: 10px;">
+                        <li class="nav-item mx-auto" style="margin-bottom: 30px;">
                             <a class="navbar-brand" href="https://www.betterask.erni/">
                                 <img src="/public/img/ERNI_Emblem.png" alt="erni" width="43.8" height="48" />
                             </a>
                         </li>
-                        <li class="nav-item mx-auto" style="margin-bottom: 10px;">
+                        <li class="nav-item mx-auto" style="margin-bottom: 30px;">
                             <a class="navbar-brand" href="/">
-                                <img src="/public/img/home.png" alt="home" width="41" />
+                                <img src="/public/img/home.png" alt="home" width="32" />
                             </a>
                         </li>
-                        <li class="nav-item mx-auto" style="margin-bottom: 10px;">
+                        <li class="nav-item mx-auto" style="margin-bottom: 30px;">
                             <a class="navbar-brand" href="#">
                                 <img src="/public/img/device.png" alt="notifications" width="43.8" height="48" />
                             </a>
@@ -48,7 +48,7 @@
                                 <ul class="nav">
                                     <li class="nav-item">
                                         <a class="navbar-brand" href="#">
-                                            <img src="/public/img/dummy.png" alt="dummy" />
+                                            <img src="/public/img/header_robot_icon.png" alt="robot icon" style="height: 44px" />
                                         </a>
                                     </li>
                                 </ul>
@@ -78,9 +78,9 @@
                             <div class="container">
                                 <div class="row">
                                     <div class="col-sm">
-                                        <table style="font-size: 80%; color: #a4a7ac">
+                                        <table>
                                             <tr>
-                                                <th colspan="2" style="color: #000000">Hardware</th>
+                                                <th colspan="2">Hardware</th>
                                             </tr>
                                             <tr>
                                                 <td>Device ID:</td>
@@ -105,9 +105,9 @@
                                         </table>
                                     </div>
                                     <div class="col-sm">
-                                        <table style="font-size: 80%; color: #a4a7ac">
+                                        <table>
                                             <tr>
-                                                <th colspan="2" style="color: #000000">Networks</th>
+                                                <th colspan="2">Networks</th>
                                             </tr>
                                             <tr>
                                                 <td>Hostname:</td>
@@ -124,9 +124,9 @@
                                         </table>
                                     </div>
                                     <div class="col-sm">
-                                        <table style="font-size: 80%; color: #a4a7ac">
+                                        <table>
                                             <tr>
-                                                <th colspan="2" style="color: #000000">Fleets</th>
+                                                <th colspan="2">Fleets</th>
                                             </tr>
                                             {% if deviceFleets|length %}
                                             {% for fleet in deviceFleets %}
@@ -155,10 +155,9 @@
                     <div class="card-deck">
                         <div class="card">
                             <div class="card-body">
-                                <h5 id="dummy_model_title">Live Preview</h5>
-                                <div id="dummy_model">
-                                    <video src="/public/img/0001-0350.mkv" type="video/mp4" class="card-img-top" muted
-                                        autoplay loop></video>
+                                <h5 id="preview_title" >Live Preview</h5>
+                                <div id="preview_model" >
+                                    <video src="/public/img/0001-0350.mkv" type="video/mp4" class="card-img-top" style="border-radius: 15px;" muted autoplay loop></video>
                                 </div>
                             </div>
                         </div>
@@ -202,9 +201,9 @@
                                                     Update 1
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <a class="dropdown-item" href="#">Update_1</a>
-                                                    <a class="dropdown-item" href="#">Update_2</a>
-                                                    <a class="dropdown-item" href="#">Update_x</a>
+                                                    <a class="dropdown-item" href="#">dummy_1</a>
+                                                    <a class="dropdown-item" href="#">dummy_2</a>
+                                                    <a class="dropdown-item" href="#">dummy_x</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -231,9 +230,9 @@
                                 <div class="row">
                                     {% for pack in devicePackages %}
                                     <div class="col-sm">
-                                        <table style="font-size: 80%; color: #a4a7ac">
+                                        <table >
                                             <tr>
-                                                <th colspan="2" style="color: #000000">
+                                                <th colspan="2">
                                                     {% if 'bootloader' in pack.component %}
                                                     Bootloader
                                                     {% elif 'docker' in pack.component %}

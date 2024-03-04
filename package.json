@@ -7,7 +7,7 @@
     "start": "node run.js",
     "test": "jest",
     "coverage": "jest --collect-coverage",
-    "development": "nodemon --delay 500ms run.js -e html"
+    "development": "nodemon --delay 500ms run.js -e html, css, js"
   },
   "author": "Erni",
   "license": "ISC",

@@ -30,9 +30,9 @@ router.get('/device', asyncHandler(async (req, res, next) => {
 
     var requested_metrics = ["temp", "mem_used"];
     // Adjust the uct linux timestamp time range for your data
-    var from_timestamp = 1708689350564;
-    var to_timestamp = 1708692650566;
-    // Request the data from the Torizon API for the device, the device metrics and the packages
+    var from_timestamp = 1708689350564; // 1709567876768
+    var to_timestamp = 1708692650566; // 1709568524733
+    // Request the data for the device, the device metrics and the packages, from the Torizon API 
     const [devices_response, device, metrics, packages] = await Promise.all([
         requestTorizonAPI("/devices"),
         requestTorizonAPI("/devices/" + device_id),

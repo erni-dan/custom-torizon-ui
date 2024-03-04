@@ -1,0 +1,35 @@
+body {
+    background-color:#FBFCFD;
+}
+
+.card {
+    background-color: white !important;
+    border:none;
+    margin-bottom:30px; 
+    border-radius: 15px; 
+    filter: drop-shadow(0px 0px 23.304px rgba(195, 191, 218, 0.22));
+}
+
+.card-deck {
+    margin-bottom: 30px;
+}
+
+table {
+    font-size: 80%;
+    color: #a4a7ac;
+}
+
+th {
+    color: #000000;
+}
+
+#nav_bar_horizontal {
+    margin-top:30px; 
+    margin-bottom:30px; 
+  }
+
+#nav {
+    margin-top:30px; 
+    margin-bottom:30px; 
+}
+ 

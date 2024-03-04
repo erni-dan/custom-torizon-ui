@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="/public/lib/bootstrap.min.css" rel="stylesheet" />    
     <link href="/public/lib/fastbootstrap.min.css" rel="stylesheet" >
-
+    <link href="/public/lib/custom.css" rel="stylesheet" >
+    
     <title>Registered Devices</title>
 </head>
 
@@ -72,8 +73,8 @@
                             <div class="col-sm-4">
                                 <div class="card">
                                     <div class="card-body">
-                                        <p class="card-text">{{device.deviceName}}</p>
-                                        <p class="card-text">Device description ...</p>
+                                        <p class="card-text"><b>{{device.deviceName}}</b></p>
+                                        <p class="card-text">Last seen: {{device.lastSeen}}</p>
                                         <a class="stretched-link" href="/device?device_id={{device.deviceUuid}}"
                                             style="color: white;">Go to device</a>
                                     </div>
