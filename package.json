@@ -2,9 +2,12 @@
   "name": "nodejs-torizon-api",
   "version": "1.0.0",
   "description": "The nodejs torizon api server",
-  "main": "app.js",
+  "main": "run.js",
   "scripts": {
-    "test": "test"
+    "start": "node run.js",
+    "test": "jest",
+    "coverage": "jest --collect-coverage",
+    "development": "nodemon --delay 500ms run.js -e html"
   },
   "author": "Erni",
   "license": "ISC",
@@ -14,6 +17,8 @@
     "nunjucks": "^3.2.4"
   },
   "devDependencies": {
-    "nodemon": "^3.1.0"
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.0",
+    "supertest": "^6.3.4"
   }
 }
