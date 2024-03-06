@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="/public/lib/bootstrap.min.css" rel="stylesheet" />    
-    <link href="/public/lib/fastbootstrap.min.css" rel="stylesheet" >
-    <link href="/public/lib/custom.css" rel="stylesheet" >
+    <link href="/public/lib/bootstrap.min.css" rel="stylesheet" />
+    <link href="/public/lib/fastbootstrap.min.css" rel="stylesheet">
+    <link href="/public/lib/custom.css" rel="stylesheet">
 
     <title>Document</title>
 </head>
@@ -48,7 +48,8 @@
                                 <ul class="nav">
                                     <li class="nav-item">
                                         <a class="navbar-brand" href="#">
-                                            <img src="/public/img/header_robot_icon.png" alt="robot icon" style="height: 44px" />
+                                            <img src="/public/img/header_robot_icon.png" alt="robot icon"
+                                                style="height: 44px" />
                                         </a>
                                     </li>
                                 </ul>
@@ -63,8 +64,8 @@
                                     </li>
                                     <li class="nav-item">
                                         <a class="navbar-brand" href="#">
-                                            <img src="/public/img/notifications.png" alt="notifications" title="Register for notifications dummy" width="43.8"
-                                                height="48" />
+                                            <img src="/public/img/notifications.png" alt="notifications"
+                                                title="Register for notifications dummy" width="43.8" height="48" />
                                         </a>
                                     </li>
                                 </ul>
@@ -155,9 +156,10 @@
                     <div class="card-deck">
                         <div class="card">
                             <div class="card-body">
-                                <h5 id="preview_title" >Live Preview</h5>
-                                <div id="preview_model" >
-                                    <video src="/public/img/0001-0350.mkv" type="video/mp4" class="card-img-top" style="border-radius: 15px;" muted autoplay loop></video>
+                                <h5 id="preview_title">Live Preview</h5>
+                                <div id="preview_model">
+                                    <video src="/public/img/0001-0350.mkv" type="video/mp4" class="card-img-top"
+                                        style="border-radius: 15px;" muted autoplay loop></video>
                                 </div>
                             </div>
                         </div>
@@ -166,15 +168,15 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Memory used</h5>
-                                            <!-- Create a div for the memory used graph -->
-                                            <div class="responsive-plot" id="mem_plot"></div>
+                                        <!-- Create a div for the memory used graph -->
+                                        <div class="responsive-plot" id="mem_plot"></div>
                                     </div>
                                 </div>
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Temperature</h5>
-                                            <!-- Create a div for the temperature graph -->
-                                            <div class="responsive-plot" id="temp_plot"></div>
+                                        <!-- Create a div for the temperature graph -->
+                                        <div class="responsive-plot" id="temp_plot"></div>
                                     </div>
                                 </div>
                             </div>
@@ -193,32 +195,73 @@
                             <div id="update-buttons">
                                 <div class="container">
                                     <div class="row">
-                                        <div class="col">
+                                        <div class="col-sm-4">
+                                            <a class="btn btn-primary btn-sm btn-block text-left"
+                                                style="border-radius: 12px" onClick="requestUpdate()" href="#">
+                                                <img src="/public/img/upload.png" /> Update Application
+                                            </a>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-secondary border-0 dropdown-toggle"
-                                                    type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
-                                                    Update 1
+                                                    data-packageId="{{packages[0].packageId}}" type="button"
+                                                    id="dropdownUpdateApp" data-toggle="dropdown" aria-haspopup="true"
+                                                    aria-expanded="false">
+                                                    {{packages[0].name}} ({{packages[0].version}})
                                                 </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <a class="dropdown-item" href="#">dummy_1</a>
-                                                    <a class="dropdown-item" href="#">dummy_2</a>
-                                                    <a class="dropdown-item" href="#">dummy_x</a>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownUpdateApp">
+                                                    {% for pack in packages %}
+                                                    <button class="dropdown-item" type="button"
+                                                        onclick="showSelectedAppPack(this)"
+                                                        data-packageId="{{pack.packageId}}">{{pack.name}}
+                                                        ({{pack.version}})</button>
+                                                    {% endfor %}
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col">
-                                            <button type="button" class="btn btn-primary btn-sm float-right"
-                                                style="border-radius: 12px">
-                                                <img src="/public/img/upload.png" /> Update
-                                            </button>
+                                        <div class="col-sm-4">
+                                            <a class="btn btn-secondary btn-sm btn-block text-left"
+                                                style="border-radius: 12px"
+                                                onClick="alert('OS update not implemented!')" href="#">
+                                                <img src="/public/img/upload.png" /> Update OS
+                                            </a>
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-secondary border-0 dropdown-toggle" 
+                                                    type="button" id="dropdownUpdateOS" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    {{packages_external[0].name | truncate(48) }}
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownUpdateOS">
+                                                    {% for pack in packages_external %}
+                                                    <button class="dropdown-item" type="button"
+                                                        onclick="showSelectedOsPack(this)">{{pack.name}}
+                                                        ({{pack.version}})</button>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <a class="btn btn-secondary btn-sm btn-block text-left"
+                                                style="border-radius: 12px"
+                                                onClick="alert('Bootloader update not implemented!')" href="#">
+                                                <img src="/public/img/upload.png" /> Update Bootloader
+                                            </a>
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-secondary border-0 dropdown-toggle"
+                                                    type="button" id="dropdownUpdateBootloader" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    dummy
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownUpdateBootloader">
+                                                    <button class="dropdown-item" type="button"
+                                                        onclick="showSelectedBootloaderPack(this)">dummy</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="card">
+                    <div class="card" style="z-index: -1;">
                         <div class="card-body">
                             <h5>
                                 Update Status
@@ -230,7 +273,7 @@
                                 <div class="row">
                                     {% for pack in devicePackages %}
                                     <div class="col-sm">
-                                        <table >
+                                        <table>
                                             <tr>
                                                 <th colspan="2">
                                                     {% if 'bootloader' in pack.component %}
@@ -239,7 +282,7 @@
                                                     Application
                                                     {% else %}
                                                     OS
-                                                    {% endif %}  
+                                                    {% endif %}
                                                 </th>
                                             </tr>
                                             <tr>
@@ -269,6 +312,44 @@
             </div>
         </div>
     </div>
+    <script>
+        function requestUpdate(item) {
+            btn = document.getElementById("dropdownUpdateApp");
+            packId = btn.getAttribute('data-packageId');
+
+            data = { device_id: "{{deviceUuid}}" };
+            data['package_id'] = packId;
+
+            $.ajax({
+                url: '/update',
+                type: "GET",
+                data: data,
+                success: function (response) {
+                    alert('Update successfully started');
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to started update! ' + xhr.status + " " + thrownError + " " + xhr.responseText);
+                }
+            });
+        }
+
+        function showSelectedAppPack(item) {
+            new_packId = item.getAttribute('data-packageId');
+            btn = document.getElementById("dropdownUpdateApp");
+            btn.setAttribute('data-packageId', new_packId);
+            btn.innerHTML = item.innerHTML;
+        }
+
+        function showSelectedOsPack(item) {
+            //trim the string to fit in under button
+            document.getElementById("dropdownUpdateOS").innerHTML = item.innerHTML.substring(0, 48) + "...";
+        }
+
+        function showSelectedBootloaderPack(item) {
+            //trim the string to fit in under button
+            document.getElementById("dropdownUpdateBootloader").innerHTML = item.innerHTML.substring(0, 48) + "...";
+        }
+    </script>
 
     <script>
         var layout = {
@@ -284,17 +365,17 @@
             'displayModeBar': false // set to false to hide the icons on top of the graph
         }
 
-        var temp_graph = {              
+        var temp_graph = {
             x: [{{ temp_x }}],
             y: [{{ temp_y }}],
         type: 'scatter'
         };
         Plotly.newPlot('temp_plot', [temp_graph], layout, config);
 
-        var mem_graph = {              
+        var mem_graph = {
             x: [{{ mem_used_x }}],
             y: [{{ mem_used_y }}],
-            type: 'scatter'
+        type: 'scatter'
         };
 
         var layout_mem = {

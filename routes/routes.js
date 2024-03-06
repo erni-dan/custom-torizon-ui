@@ -1,7 +1,7 @@
 var express = require("express");
 const router = express.Router();
 const { requestTorizonAPI } = require('../torizon_api');
-const { processDeviceMetrics } = require('../utility/utility');
+const utility = require('../utility/utility');
 
 // async/await error handling give the error to the next middleware of expressjs
 const asyncHandler = (fun) => (req, res, next) => {
@@ -32,23 +32,40 @@ router.get('/device', asyncHandler(async (req, res, next) => {
     // Adjust the uct linux timestamp time range for your data
     var from_timestamp = 1708689350564; // 1709567876768
     var to_timestamp = 1708692650566; // 1709568524733
+
     // Request the data for the device, the device metrics and the packages, from the Torizon API 
-    const [devices_response, device, metrics, packages] = await Promise.all([
+    const [all_devices, device, metrics, packages, packages_external] = await Promise.all([
         requestTorizonAPI("/devices"),
         requestTorizonAPI("/devices/" + device_id),
         requestTorizonAPI("/device-data/devices/" + device_id + "/metrics?metric=" + requested_metrics.join("&metric=") + "&from=" + from_timestamp + "&to=" + to_timestamp),
-        requestTorizonAPI("/packages")]);
+        requestTorizonAPI("/packages"),
+        requestTorizonAPI("/packages_external")]);
 
-    //combine the results into an object
-    var api_data = { ...devices_response.data["values"][0], ...device.data };
-    api_data["packages"] = packages.data["values"];
-
-    for (const metric of requested_metrics) {
-        processDeviceMetrics(metric, metrics, api_data);
-    }
+    // transform the data to the format that the template needs
+    const api_data = utility.combineDeviceData(device_id, all_devices, device, metrics, packages, packages_external, requested_metrics);
 
     // Return the rendered device.html template with the results of the Torizon API requests
     res.render('device.html', api_data);
+}));
+
+//handle update request
+router.get('/update', asyncHandler(async (req, res, next) => {
+    const device_id = req.query.device_id;
+    const package_id = req.query.package_id;
+
+    data = {
+        "packageIds": [package_id],
+        "devices": [device_id]
+    }
+
+    try {
+        var update_response = await requestTorizonAPI("/updates", data, 'POST');
+        return res.status(update_response.status).send({ "data": update_response.data });
+    }
+    catch (error) {
+        return res.status(error.response.status).send({ "error": error.message, "error_details": error.response.data.notAffected });
+    }
+
 }));
 
 module.exports = router;

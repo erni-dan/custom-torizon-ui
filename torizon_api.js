@@ -21,7 +21,7 @@ const requestTorizonAPI = async (endpoint, data = null, method = 'GET') => {
         case 'GET':
             return torizon_api.get(endpoint);
         case 'POST':
-            return torizon_api.post(endpoint, data);
+            return torizon_api.post(endpoint, JSON.stringify(data));
         case 'DELETE':
             return torizon_api.delete(endpoint + `/${data}`);
         case 'PUT':
