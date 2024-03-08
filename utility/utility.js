@@ -38,10 +38,26 @@ function reorderDevicePackages(device) {
 
 
 /**
+ * Sets the connection status based on the provided API data.
+ *
+ * @param {Object} api_data - The API data object.
+ */
+function setConnectionStatus(api_data) {
+    var lastSeen = Date.parse(api_data.lastSeen);  // The last seen timestamp in ISO 8601 format.
+    var dateNow = Date.now();  //always bigger than lastSeen
+    var timeDifference = dateNow - lastSeen;
+    var minutesDifference = Math.floor(timeDifference / (1000 * 60));
+    api_data["isConnected"] = true;
+    if (minutesDifference > 5) {
+        // Time difference is bigger than 5 minutes. Default intervall for the device to send data is 5 minutes
+        api_data["isConnected"] = false;
+    }
+}
+
+
+/**
  * Processes the input device data and returns an object containing all data combined.
  *
- * @param {string} device_id - The ID of the device.
- * @param {object} all_devices - The object containing device data for all devices.
  * @param {object} device - The object containing device-specific data.
  * @param {object} metrics - The object containing metric data.
  * @param {object} packages - The object containing package data.
@@ -49,16 +65,22 @@ function reorderDevicePackages(device) {
  * @param {Array} requested_metrics - An array of the requested metrics.
  * @returns {object} - The object containing all data combined.
  */
-function combineDeviceData(device_id, all_devices, device, metrics, packages, packages_external, requested_metrics) {
+function combineDeviceData(device, metrics, packages, packages_external, requested_metrics) {
     // Order the device components (application, os, bootloader)
     reorderDevicePackages(device);
 
-    // Combine the results into an object
-    const device_data = all_devices.data["values"].find(item => item.deviceUuid === device_id);
-    const api_data = { ...device_data, ...device.data };
+    // Combine the results into one object
+    const api_data = device.data;
+
+    //returns the componentID/hardwareID of the OS packages, which is used to filter the external packages for OS packages
+    const os_filter = device.data.devicePackages[1].component;
+    api_data["os_packages_external"] =
+        packages_external.data["values"].filter(item => { return item.name.includes(os_filter) && !item.name.includes("bootloader") });
+    api_data["bootloader_packages_external"] =
+        packages_external.data["values"].filter(item => { return item.name.includes("bootloader") && item.name.includes(os_filter) });
     api_data["packages"] = packages.data["values"];
-    const filter = device.data.devicePackages[1].component;
-    api_data["packages_external"] = packages_external.data["values"].filter(item => item.name.includes(filter));
+
+    setConnectionStatus(api_data);
 
     for (const metric of requested_metrics) {
         processDeviceMetrics(metric, metrics, api_data);

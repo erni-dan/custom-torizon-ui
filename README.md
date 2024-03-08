@@ -76,6 +76,38 @@ To get started with the Toradex Custom Web UI, follow these steps:
 6. Open your browser with [http://localhost:3000/](http://localhost:3000/)
 
 
+## Directory layout
+
+    .
+    ├── __test__           # the tests
+    ├── public             # all static resources for the web pages (e.g images, libs, ...) 
+    ├── routes             # backend implementation, handle the requests and respond with html pages
+    ├── utility            # helper modules
+    ├── views              # html templates (the UI without data)
+    ├── app.js             # defines the expressjs application, but does not start it
+    ├── package.json       # root of every Nodejs project, info about app, modules and packages, defines all npm scripts
+    |── README.md          
+    ├── run.js             # starts the application 
+    ├── torizon_api.js     # encapsuling a request client for the Torizon API
+
+
+## Customization
+
+You can add your own device images to the "public/img" folder and set the reference to your images from "views/device.html" via the "addDeviceImage()" function
+   ```
+   <script>
+      function addDeviceImage() {
+            var deviceImage = document.getElementById("device_preview");
+            var deviceImageSrc = "/public/img/robot_icon.png";  // TODO: replace with your device image
+            ...
+
+            var deviceIconImage = document.getElementById("device_preview_icon");
+            var deviceIconImageSrc = "/public/img/robot_icon.png";  // TODO: replace with your device icon image
+            ...
+      }
+   </script>
+   ```
+
 ## Development
 
 1. For the tests, you will need a node version > 14.x. 

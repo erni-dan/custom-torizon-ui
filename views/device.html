@@ -11,7 +11,7 @@
     <title>Document</title>
 </head>
 
-<body>
+<body onload="addDeviceImage();">
     <script src="/public/lib/jquery-3.7.1.min.js"></script>
     <script src="/public/lib/popper.min.js"></script>
     <script src="/public/lib/bootstrap.min.js"></script>
@@ -24,17 +24,17 @@
                     <ul class="nav flex-column">
                         <li class="nav-item mx-auto" style="margin-bottom: 30px;">
                             <a class="navbar-brand" href="https://www.betterask.erni/">
-                                <img src="/public/img/ERNI_Emblem.png" alt="erni" width="43.8" height="48" />
+                                <img src="/public/img/ERNI_Emblem.png" alt="www.betterask.erni" title="www.betterask.erni" width="43.8" height="48" />
                             </a>
                         </li>
                         <li class="nav-item mx-auto" style="margin-bottom: 30px;">
                             <a class="navbar-brand" href="/">
-                                <img src="/public/img/home.png" alt="home" width="32" />
+                                <img src="/public/img/home.png" alt="Home" title="Home"  width="32" />
                             </a>
                         </li>
                         <li class="nav-item mx-auto" style="margin-bottom: 30px;">
-                            <a class="navbar-brand" href="#">
-                                <img src="/public/img/device.png" alt="notifications" width="43.8" height="48" />
+                            <a class="navbar-brand" href="https://app.torizon.io/#/fleets">
+                                <img src="/public/img/connect_icon.png" alt="Fleets" title="Fleets"  width="43.8" height="48" />
                             </a>
                         </li>
                     </ul>
@@ -47,9 +47,17 @@
                             <div class="col">
                                 <ul class="nav">
                                     <li class="nav-item">
+                                        <a class="navbar-brand" id="device_preview_icon" href="#">
+                                            <img src="/public/img/robot_icon.png" height="42" />
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a class="navbar-brand" href="#">
-                                            <img src="/public/img/header_robot_icon.png" alt="robot icon"
-                                                style="height: 44px" />
+                                            {% if isConnected %}
+                                            <img src="/public/img/robot_icon_connected.png" alt="robot icon" style="height: 44px" />
+                                            {% else %}
+                                            <img src="/public/img/robot_icon_disconnected.png" alt="robot icon" style="height: 44px" />
+                                            {% endif %}
                                         </a>
                                     </li>
                                 </ul>
@@ -58,14 +66,12 @@
                                 <ul class="nav justify-content-end">
                                     <li class="nav-item">
                                         <a class="navbar-brand" href="https://app.torizon.io/#/">
-                                            <img src="/public/img/user.png" alt="user account" width="43.8"
-                                                height="48" />
+                                            <img src="/public/img/user.png" alt="access torizon user account" title="access torizon user account" width="43.8" height="48" />
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="navbar-brand" href="#">
-                                            <img src="/public/img/notifications.png" alt="notifications"
-                                                title="Register for notifications dummy" width="43.8" height="48" />
+                                            <img src="/public/img/notifications.png" alt="dummy notifications registeration" title="dummy notifications registeration" width="43.8" height="48" />
                                         </a>
                                     </li>
                                 </ul>
@@ -157,7 +163,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 id="preview_title">Live Preview</h5>
-                                <div id="preview_model">
+                                <div id="device_preview">
                                     <video src="/public/img/0001-0350.mkv" type="video/mp4" class="card-img-top"
                                         style="border-radius: 15px;" muted autoplay loop></video>
                                 </div>
@@ -188,16 +194,22 @@
                         <div class="card-body">
                             <h5>
                                 Update
-                                <span class="update_state" style="font-size: 60%; color: #26BF00"><img
-                                        src="/public/img/ok.png" /> No pending updates
+                                {% if deviceStatus == "UpToDate" %}
+                                <span class="update_state" id="update_id" style="font-size: 60%; color: #26BF00"><img
+                                    src="/public/img/ok.png" /> No pending updates
                                 </span>
+                                {% else %}
+                                <span class="update_state" id="update_id" style="font-size: 60%; color: #BF2200"><img
+                                    src="/public/img/ok_red.png" /> Pending updates
+                                </span>
+                                {% endif %}
                             </h5>
                             <div id="update-buttons">
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-sm-4">
                                             <a class="btn btn-primary btn-sm btn-block text-left"
-                                                style="border-radius: 12px" onClick="requestUpdate()" href="#">
+                                                style="border-radius: 12px" onClick="requestUpdate()" href="javascript:void(0);">
                                                 <img src="/public/img/upload.png" /> Update Application
                                             </a>
                                             <div class="dropdown">
@@ -227,10 +239,10 @@
                                                 <button class="btn btn-outline-secondary border-0 dropdown-toggle" 
                                                     type="button" id="dropdownUpdateOS" data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
-                                                    {{packages_external[0].name | truncate(48) }}
+                                                    {{os_packages_external[0].name | truncate(48) }}
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownUpdateOS">
-                                                    {% for pack in packages_external %}
+                                                    {% for pack in os_packages_external %}
                                                     <button class="dropdown-item" type="button"
                                                         onclick="showSelectedOsPack(this)">{{pack.name}}
                                                         ({{pack.version}})</button>
@@ -248,11 +260,14 @@
                                                 <button class="btn btn-outline-secondary border-0 dropdown-toggle"
                                                     type="button" id="dropdownUpdateBootloader" data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
-                                                    dummy
+                                                    {{bootloader_packages_external[0].name | truncate(48) }}
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownUpdateBootloader">
+                                                    {% for pack in bootloader_packages_external %}
                                                     <button class="dropdown-item" type="button"
-                                                        onclick="showSelectedBootloaderPack(this)">dummy</button>
+                                                        onclick="showSelectedBootloaderPack(this)">{{pack.name}}({{pack.version}})
+                                                    </button>
+                                                    {% endfor %}
                                                 </div>
                                             </div>
                                         </div>
@@ -265,9 +280,15 @@
                         <div class="card-body">
                             <h5>
                                 Update Status
-                                <span class="update_state" style="font-size: 60%; color: #26BF00"><img
-                                        src="/public/img/ok.png" />
+                                {% if deviceStatus == "UpToDate" %}
+                                <span class="update_state"  id="update_state_id" >
+                                    <img src="/public/img/ok.png" />
                                 </span>
+                                {% else %}
+                                <span class="update_state"  id="update_state_id" >
+                                    <img src="/public/img/ok_red.png" />
+                                </span>
+                                {% endif %}
                             </h5>
                             <div class="container">
                                 <div class="row">
@@ -325,7 +346,12 @@
                 type: "GET",
                 data: data,
                 success: function (response) {
-                    alert('Update successfully started');
+                    console.log('Update successfully assigned to device : ' + "{{deviceUuid}}");
+                    //change the update status to pending
+                    document.getElementById("update_state_id").innerHTML = "<img src='/public/img/ok_red.png' />";
+                    document.getElementById("update_id").innerHTML = "<img src='/public/img/ok_red.png' /><span style='color: #BF2200'>Pending updates</span>";
+
+                    alert('Update successfully assigned to device : ' + "{{deviceUuid}}");
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     alert('Failed to started update! ' + xhr.status + " " + thrownError + " " + xhr.responseText);
@@ -404,6 +430,21 @@
                 'yaxis.autorange': true,
             });
         };
+    </script>
+
+    <script>
+        //HINT: This function is called when the page is loaded and substitutes the device image and icon
+        //      Remove the comments below to use your personal device image and icon
+
+        function addDeviceImage() {
+        //    var deviceImage = document.getElementById("device_preview");
+        //    var deviceImageSrc = "/public/img/robot_icon.png";  // TODO: replace with your device image
+        //    deviceImage.innerHTML = "<img src='" + deviceImageSrc + "' class='card-img-top' style='border-radius: 15px;'>";
+
+        //    var deviceIconImage = document.getElementById("device_preview_icon");
+        //    var deviceIconImageSrc = "/public/img/robot_icon.png";  // TODO: replace with your device icon image
+        //    deviceIconImage.innerHTML = "<img src='" + deviceIconImageSrc + "' height='42'>";
+        }
     </script>
 </body>
 
