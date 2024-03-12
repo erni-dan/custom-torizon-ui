@@ -11,7 +11,7 @@
     <title>Registered Devices</title>
 </head>
 
-<body>
+<body onload="addDeviceImage();">
     <script src="/public/lib/jquery-3.7.1.min.js"></script>
     <script src="/public/lib/popper.min.js"></script>
     <script src="/public/lib/bootstrap.min.js"></script>
@@ -73,10 +73,27 @@
                             <div class="col-sm-4">
                                 <div class="card">
                                     <div class="card-body">
-                                        <p class="card-text"><b>{{device.deviceName}}</b></p>
-                                        <p class="card-text">Last seen: {{device.lastSeen}}</p>
-                                        <a class="stretched-link" href="/device?device_id={{device.deviceUuid}}"
-                                            style="color: white;">Go to device</a>
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-md-auto">
+                                                <img src="/public/img/robot_icon.png" alt="robot icon" id="device_preview_icon" style="height: 44px"/>
+                                            </div>
+                                            <div class="col-sm">
+                                                {% if isConnected %}
+                                                <img src="/public/img/robot_icon_connected.png" alt="robot icon" style="height: 44px" />
+                                                {% else %}
+                                                <img src="/public/img/robot_icon_disconnected.png" alt="robot icon" style="height: 44px" />
+                                                {% endif %}
+                                            </div>
+                                            </div>
+                                            <div class="row">
+                                                <p class="card-text"><b>{{device.deviceName}} <br> </b>
+                                                    <span style="font-size: 0.618em">Last seen: {{device.lastSeen}}</span>
+                                                </p> 
+                                                <a class="stretched-link" href="/device?device_id={{device.deviceUuid}}"
+                                                    style="color: white;">Go to device</a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -87,6 +104,17 @@
             </div>
         </div>
     </div>
+
+    <script>
+        //HINT: This function is called when the page is loaded and substitutes the device image and icon
+        //      Remove the comments below to use your personal device image and icon
+
+        function addDeviceImage() {
+//            var deviceIconImage = document.getElementById("device_preview_icon");
+//            var deviceIconImageSrc = "/public/img/your.png";  // TODO: replace with your image
+//            deviceIconImage.innerHTML = "<img src='" + deviceIconImageSrc + "' alt="robot icon" id="device_preview_icon" style="height: 44px"/>
+        }
+    </script>
 </body>
 
 </html>
