@@ -20,20 +20,21 @@ function processDeviceMetrics(item_name, metrics, api_data) {
  * @param {object} device The device object containing the device packages.
  */
 function reorderDevicePackages(device) {
-    for (var i = 0; i < device.data.devicePackages.length; i++) {
-        if (device.data.devicePackages[i].component.includes("-bootloader")) {
-            var boot = device.data.devicePackages[i];
+    let boot, app, os;
+    const {data: {devicePackages}} = device;
+    // Loop through device packages to reorder them
+    devicePackages.forEach(pkg => {
+        if (pkg.component.includes("-bootloader")) {
+            boot = pkg;
+        } else if (pkg.component.includes("docker-")) {
+            app = pkg;
+        } else {
+            os = pkg;
         }
-        else if (device.data.devicePackages[i].component.includes("docker-")) {
-            var app = device.data.devicePackages[i];
-        }
-        else {
-            var os = device.data.devicePackages[i];
-        }
-    }
-    device.data.devicePackages[0] = app;
-    device.data.devicePackages[1] = os;
-    device.data.devicePackages[2] = boot;
+    });
+    devicePackages[0] = app;
+    devicePackages[1] = os;
+    devicePackages[2] = boot;
 }
 
 
