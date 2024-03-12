@@ -1,6 +1,6 @@
 # Toradex Custom Web UI
 
-This repository contains the code for the custom web user interface (UI) of the Torizon web API.
+This repository contains code for an example of a custom web user interface (UI) for the [Torizon](https://www.torizon.io/) web API of [Toradex](https://www.toradex.com/).
 
 ## Prerequisites
 
@@ -42,7 +42,7 @@ To get started with the Toradex Custom Web UI, follow these steps:
 
    ```bash
     sudo apt install nodejs
-    node -v  // has to be minimum v12.22.9  
+    node -v  // has to be minimum > 14.x.   
     sudo apt install npm 
     npm -v  // has to be minimum 8.5.1
     ```
@@ -111,7 +111,10 @@ You can add your own device images to the "public/img" folder and set the refere
 ## Development
 
 1. For the tests, you will need a node version > 14.x. 
-   Or you will see "run.js:135 unexpected token if (error?.stack)"<br>
+   Or you will see 
+   ```
+   run.js:135 unexpected token if (error?.stack)"
+   ```
    Install nvm, to update the nodejs version :
    ```
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash

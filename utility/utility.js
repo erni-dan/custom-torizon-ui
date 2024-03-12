@@ -43,10 +43,10 @@ function reorderDevicePackages(device) {
  * @param {Object} api_data - The API data object.
  */
 function setConnectionStatus(api_data) {
-    var lastSeen = Date.parse(api_data.lastSeen);  // The last seen timestamp in ISO 8601 format.
-    var dateNow = Date.now();  //always bigger than lastSeen
-    var timeDifference = dateNow - lastSeen;
-    var minutesDifference = Math.floor(timeDifference / (1000 * 60));
+    const lastSeen = Date.parse(api_data.lastSeen);  // The last seen timestamp in ISO 8601 format.
+    const dateNow = Date.now();  //always bigger than lastSeen
+    const timeDifference = dateNow - lastSeen;
+    const minutesDifference = Math.floor(timeDifference / (1000 * 60));
     api_data["isConnected"] = true;
     if (minutesDifference > 5) {
         // Time difference is bigger than 5 minutes. Default intervall for the device to send data is 5 minutes

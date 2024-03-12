@@ -1,6 +1,6 @@
 const supertest = require("supertest");
 const app = require("../app");
-const { processDeviceMetrics } = require('../utility/utility');
+const { combineDeviceData } = require('../utility/utility');
 
 const request = supertest(app);
 
@@ -19,9 +19,25 @@ test("GET /nonexistent should return status code 404", async () => {
     expect(response.status).toBe(404);
 });
 
-test("processDeviceMetrics should return processed metrics", () => {
-    // Mock input data
-    var item_name = "temperature";
+
+test("test combine device specific data to api_data", () => {
+    // Mock device data
+    const device = {
+        data: {
+            devicePackages: [
+                { component: "verdin-bootloader" },
+                { component: "docker-component" }, 
+                { component: "verdin-imx8" } 
+            ],
+            lastSeen: "2020-01-01T00:00:00.000Z"
+        }
+    };
+
+    // Mock the current time to be 6 minutes later than lastSeen (device => Not connected)
+    jest.useFakeTimers().setSystemTime(new Date('2020-01-01T00:06:00.000Z'));
+
+    var requested_metrics = ["temperature", "pressure"];
+    // Mock metrics data
     const metrics = {
         data: {
             series: [
@@ -31,29 +47,34 @@ test("processDeviceMetrics should return processed metrics", () => {
             ]
         }
     };
-    
-    const api_data = {};
 
-    // Call the function
-    processDeviceMetrics(item_name, metrics, api_data);
+    // Mock one application package
+    const packages = { data: { values: [{"name": "test.yml", "version": "1.0.0"}] } };
+    // Mock one bootloader package and one OS package and one package without application and bootloader
+    const packages_external = { data: { values: [{"name": "bootloader/verdin-imx8mp/u-boot-ota.bin"}, {"name": "dunfell/verdin-imx8/torizon-rt/monthly"}, {"name": "no-app-and-no-boot-loader"}] } };
 
-    // Assert the expected output
-    expect(api_data).toEqual({
-        temperature_x: [1, 2, 3],
-        temperature_y: [25, 30, 28]
-    });
+    // Combine the mocks into one object
+    const api_data = combineDeviceData(device, metrics, packages, packages_external, requested_metrics);
 
-    item_name = "pressure";
-    // Call the function
-    processDeviceMetrics(item_name, metrics, api_data);
+    // Check if the packages are reordered correctly (1. application, 2. OS, 3. bootloader)
+    expect(api_data.devicePackages[0].component).toBe("docker-component");
+    expect(api_data.devicePackages[1].component).toBe("verdin-imx8");
+    expect(api_data.devicePackages[2].component).toBe("verdin-bootloader");
 
-    // Assert the expected output
-    expect(api_data).toEqual({
-        temperature_x: [1, 2, 3],
-        temperature_y: [25, 30, 28],
-        pressure_x: [1, 2, 3],
-        pressure_y: [1013, 1015, 1012]
-    });
+    // Check the filtered packages
+    expect(api_data.os_packages_external).toEqual([{"name": "dunfell/verdin-imx8/torizon-rt/monthly"}]);
+    expect(api_data.bootloader_packages_external).toEqual([{"name": "bootloader/verdin-imx8mp/u-boot-ota.bin"}]);
+    expect(api_data.packages).toEqual([{"name": "test.yml", "version": "1.0.0"}]);
+
+    // Check the metrics data
+    expect(api_data.temperature_x).toEqual([1, 2, 3]);
+    expect(api_data.temperature_y).toEqual([25, 30, 28]);
+    expect(api_data.pressure_x).toEqual([1, 2, 3]);
+    expect(api_data.pressure_y).toEqual([1013, 1015, 1012]);
+
+    // Check if isConnected is set to false
+    expect(api_data.isConnected).toBe(false);
+
+    // Restore the original Date
+    jest.useRealTimers()
 });
-
- 
