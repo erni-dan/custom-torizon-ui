@@ -1,10 +1,10 @@
 const express = require('express');
 const routes = require("./routes/routes");
 
-var app = express();
+const app = express();
 app.use('/public', express.static(__dirname + '/public'));
 
-var nunjucks = require('nunjucks')
+const nunjucks = require('nunjucks')
 // Set up the template engine and define the html templates directory
 nunjucks.configure('views', {
     autoescape: true,

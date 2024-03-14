@@ -53,26 +53,34 @@ To get started with the Toradex Custom Web UI, follow these steps:
    npm install & npm update
    ```
 
-   This should install the following packages ([expressjs](https://expressjs.com/en/starter/hello-world.html), [nunjucks](https://mozilla.github.io/nunjucks/getting-started.html),  [axios](https://axios-http.com/docs/intro) ):
+   This should install the following packages ([expressjs](https://expressjs.com/en/starter/hello-world.html), [nunjucks](https://mozilla.github.io/nunjucks/getting-started.html), [axios](https://axios-http.com/docs/intro) ), [dotenv](https://github.com/motdotla/dotenv):
 
    ```
     npm install express --save  // minimal web framework for routing and static files serving
     npm install nunjucks --save // html templates in jinja style
     npm install axios --save    // a promised based http client, supporting requests with Bearer token to access the torizon API
+    npm install dotenv --save   // a zero-dependency module that loads environment variables from a .env file
    ```
 
-4. Copy your API Bearer token into the variable "api_bearer_token" in file "torizon_api.js"
-
-> [!IMPORTANT]  
-> If your facing a 401 HTTP error. Ensure to have a valid API Bearer token.
-> See [How-To get an API token](https://developer.toradex.com/torizon/torizon-platform/torizon-api/#get-a-token)
+4. Create a `.env` file in the root directory of your project if it doesn't exist already. Add the following configuration to it:
+      ```plaintext
+      TORIZON_API_TOKEN=your_token
+      ```
+   > [!IMPORTANT]  
+   > If your facing a 401 HTTP error. Ensure to have a valid API Bearer token.
+   > See [How-To get an API token](https://developer.toradex.com/torizon/torizon-platform/torizon-api/#get-a-token)
 
 5. Start the app
 
     ```
-    node app.js
+    node run.js
     ```
 
+    or
+
+     ```
+    npm run start
+    ```
 6. Open your browser with [http://localhost:3000/](http://localhost:3000/)
 
 
@@ -93,21 +101,17 @@ To get started with the Toradex Custom Web UI, follow these steps:
 
 ## Customization
 
-You can add your own device images to the "public/img" folder and set the reference to your images from "views/device.html" via the "addDeviceImage()" function
+You can add your own device images to the "public/img" folder and set the reference to your images via the "addDeviceImage()" function, which can be found in every HTML file.
    ```
    <script>
       function addDeviceImage() {
             var deviceImage = document.getElementById("device_preview");
             var deviceImageSrc = "/public/img/robot_icon.png";  // TODO: replace with your device image
             ...
-
-            var deviceIconImage = document.getElementById("device_preview_icon");
-            var deviceIconImageSrc = "/public/img/robot_icon.png";  // TODO: replace with your device icon image
-            ...
       }
    </script>
    ```
-
+   
 ## Development
 
 1. For the tests, you will need a node version > 14.x. 

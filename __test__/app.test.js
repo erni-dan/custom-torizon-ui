@@ -36,7 +36,7 @@ test("test combine device specific data to api_data", () => {
     // Mock the current time to be 6 minutes later than lastSeen (device => Not connected)
     jest.useFakeTimers().setSystemTime(new Date('2020-01-01T00:06:00.000Z'));
 
-    var requested_metrics = ["temperature", "pressure"];
+    const requested_metrics = ["temperature", "pressure"];
     // Mock metrics data
     const metrics = {
         data: {
