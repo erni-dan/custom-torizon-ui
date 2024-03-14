@@ -2,7 +2,7 @@ const axios = require('axios');
 require('dotenv').config();
 
 //Add your API Bearer token here
-var api_bearer_token = process.env.TORIZON_API_TOKEN;
+const api_bearer_token = process.env.TORIZON_API_TOKEN;
 const torizon_api = axios.create({
     baseURL: 'https://app.torizon.io/api/v2beta',
     headers: {

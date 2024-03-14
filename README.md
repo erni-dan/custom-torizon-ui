@@ -53,12 +53,13 @@ To get started with the Toradex Custom Web UI, follow these steps:
    npm install & npm update
    ```
 
-   This should install the following packages ([expressjs](https://expressjs.com/en/starter/hello-world.html), [nunjucks](https://mozilla.github.io/nunjucks/getting-started.html),  [axios](https://axios-http.com/docs/intro) ):
+   This should install the following packages ([expressjs](https://expressjs.com/en/starter/hello-world.html), [nunjucks](https://mozilla.github.io/nunjucks/getting-started.html), [axios](https://axios-http.com/docs/intro) ), [dotenv](https://github.com/motdotla/dotenv):
 
    ```
     npm install express --save  // minimal web framework for routing and static files serving
     npm install nunjucks --save // html templates in jinja style
     npm install axios --save    // a promised based http client, supporting requests with Bearer token to access the torizon API
+    npm install dotenv --save   // a zero-dependency module that loads environment variables from a .env file
    ```
 
 4. Create a `.env` file in the root directory of your project if it doesn't exist already. Add the following configuration to it:
@@ -100,16 +101,12 @@ To get started with the Toradex Custom Web UI, follow these steps:
 
 ## Customization
 
-You can add your own device images to the "public/img" folder and set the reference to your images from "views/device.html" via the "addDeviceImage()" function
+You can add your own device images to the "public/img" folder and set the reference to your images via the "addDeviceImage()" function, which can be found in every HTML file.
    ```
    <script>
       function addDeviceImage() {
             var deviceImage = document.getElementById("device_preview");
             var deviceImageSrc = "/public/img/robot_icon.png";  // TODO: replace with your device image
-            ...
-
-            var deviceIconImage = document.getElementById("device_preview_icon");
-            var deviceIconImageSrc = "/public/img/robot_icon.png";  // TODO: replace with your device icon image
             ...
       }
    </script>

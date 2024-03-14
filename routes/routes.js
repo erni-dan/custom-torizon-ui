@@ -13,7 +13,7 @@ const asyncHandler = (fun) => (req, res, next) => {
 //handle index page request
 router.get('/', asyncHandler(async (req, res, next) => {
     // Request for all registered devices from the Torizon API
-    var devices_response = await requestTorizonAPI("/devices");
+    const devices_response = await requestTorizonAPI("/devices");
 
     if (!"values" in devices_response.data || devices_response.data["values"].length === 0) {
         throw new Error("No devices found. Please make sure that you have at least one device registered via Torizon.");
@@ -35,11 +35,11 @@ router.get('/device', asyncHandler(async (req, res, next) => {
         requestTorizonAPI("/packages_external")]);                  // request packages from other sources, such as images published by Toradex.
 
     // Request the last 60 minutes of the device meterics
-    var interval = 60 * 60 * 1000;
-    var lastSeen = Date.parse(device.data["lastSeen"]);
-    var from = lastSeen - interval;
-    var requested_metrics = ["temp", "mem_used"];
-    var metrics = await requestTorizonAPI(`/device-data/devices/${device_id}/metrics?metric=${requested_metrics.join("&metric=")}&from=${from}&to=${lastSeen}`);
+    const interval = 60 * 60 * 1000; // 60 minutes * 60 seconds * 1000 milliseconds => 60 minutes in milliseconds
+    const lastSeen = Date.parse(device.data["lastSeen"]);
+    const from = lastSeen - interval;
+    const requested_metrics = ["temp", "mem_used"];
+    const metrics = await requestTorizonAPI(`/device-data/devices/${device_id}/metrics?metric=${requested_metrics.join("&metric=")}&from=${from}&to=${lastSeen}`);
 
     // transform the data to a format that the template engine needs
     const api_data = utility.combineDeviceData(device, metrics, packages, packages_external, requested_metrics);
@@ -52,7 +52,7 @@ router.get('/device', asyncHandler(async (req, res, next) => {
 router.get('/update', asyncHandler(async (req, res, next) => {
     const device_id = req.query.device_id;
     const package_id = req.query.package_id;
-    data = { "packageIds": [package_id], "devices": [device_id] }
+    const data = { "packageIds": [package_id], "devices": [device_id] }
     try {
         var update_response = await requestTorizonAPI("/updates", data, 'POST');
         return res.status(update_response.status).send({ "data": update_response.data });
