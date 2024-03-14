@@ -67,9 +67,9 @@ To get started with the Toradex Custom Web UI, follow these steps:
    TORIZON_API_TOKEN=your_token
    ```
 
-   > [!IMPORTANT]  
-   > If your facing a 401 HTTP error. Ensure to have a valid API Bearer token.
-   > See [How-To get an API token](https://developer.toradex.com/torizon/torizon-platform/torizon-api/#get-a-token)
+> [!IMPORTANT]  
+> If your facing a 401 HTTP error. Ensure to have a valid API Bearer token.
+> See [How-To get an API token](https://developer.toradex.com/torizon/torizon-platform/torizon-api/#get-a-token)
 
 5. Start the app
 
