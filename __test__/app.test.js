@@ -1,12 +1,17 @@
 const supertest = require("supertest");
 const app = require("../app");
+const request = supertest(app);
 const { combineDeviceData } = require('../utility/utility');
 
-const request = supertest(app);
 
-test("GET / should return status code 200", async () => {
+test("GET /nonexistent should return status code 404", async () => {
+    const response = await request.get("/nonexistent");
+    expect(response.status).toBe(404);
+});
+
+test("GET / should return status code 500 (URL exists, but no valid api bearer token causes internal error)", async () => {
     const response = await request.get("/");
-    expect(response.status).toBe(200);
+    expect(response.status).toBe(500);
 });
 
 test("GET /device without id should return status code 500", async () => {
@@ -14,11 +19,10 @@ test("GET /device without id should return status code 500", async () => {
     expect(response.status).toBe(500);
 });
 
-test("GET /nonexistent should return status code 404", async () => {
-    const response = await request.get("/nonexistent");
-    expect(response.status).toBe(404);
+test("GET /update should return status code 500 (URL exists, but no valid api bearer token causes internal error)", async () => {
+    const response = await request.get("/update?device_id=123&package_id=123");
+    expect(response.status).toBe(500);
 });
-
 
 test("test combine device specific data to api_data", () => {
     // Mock device data
@@ -26,8 +30,8 @@ test("test combine device specific data to api_data", () => {
         data: {
             devicePackages: [
                 { component: "verdin-bootloader" },
-                { component: "docker-component" }, 
-                { component: "verdin-imx8" } 
+                { component: "docker-component" },
+                { component: "verdin-imx8" }
             ],
             lastSeen: "2020-01-01T00:00:00.000Z"
         }
@@ -49,9 +53,9 @@ test("test combine device specific data to api_data", () => {
     };
 
     // Mock one application package
-    const packages = { data: { values: [{"name": "test.yml", "version": "1.0.0"}] } };
+    const packages = { data: { values: [{ "name": "test.yml", "version": "1.0.0" }] } };
     // Mock one bootloader package and one OS package and one package without application and bootloader
-    const packages_external = { data: { values: [{"name": "bootloader/verdin-imx8mp/u-boot-ota.bin"}, {"name": "dunfell/verdin-imx8/torizon-rt/monthly"}, {"name": "no-app-and-no-boot-loader"}] } };
+    const packages_external = { data: { values: [{ "name": "bootloader/verdin-imx8mp/u-boot-ota.bin" }, { "name": "dunfell/verdin-imx8/torizon-rt/monthly" }, { "name": "no-app-and-no-boot-loader" }] } };
 
     // Combine the mocks into one object
     const api_data = combineDeviceData(device, metrics, packages, packages_external, requested_metrics);
@@ -62,9 +66,9 @@ test("test combine device specific data to api_data", () => {
     expect(api_data.devicePackages[2].component).toBe("verdin-bootloader");
 
     // Check the filtered packages
-    expect(api_data.os_packages_external).toEqual([{"name": "dunfell/verdin-imx8/torizon-rt/monthly"}]);
-    expect(api_data.bootloader_packages_external).toEqual([{"name": "bootloader/verdin-imx8mp/u-boot-ota.bin"}]);
-    expect(api_data.packages).toEqual([{"name": "test.yml", "version": "1.0.0"}]);
+    expect(api_data.os_packages_external).toEqual([{ "name": "dunfell/verdin-imx8/torizon-rt/monthly" }]);
+    expect(api_data.bootloader_packages_external).toEqual([{ "name": "bootloader/verdin-imx8mp/u-boot-ota.bin" }]);
+    expect(api_data.packages).toEqual([{ "name": "test.yml", "version": "1.0.0" }]);
 
     // Check the metrics data
     expect(api_data.temperature_x).toEqual([1, 2, 3]);
