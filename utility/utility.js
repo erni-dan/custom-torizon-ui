@@ -12,6 +12,9 @@ function processDeviceMetrics(item_name, metrics, api_data) {
     // Provide the data in the format that the plotly.js chart expects
     api_data[item_name + "_x"] = temperature_values.map((tuple) => tuple[0]);
     api_data[item_name + "_y"] = temperature_values.map((tuple) => tuple[1]);
+
+    // convert UNIX timestamp to human readable time in 24 hours mode
+    api_data[item_name + "_x"] = api_data[item_name + "_x"].map((unix_timestamp) => new Date(unix_timestamp).toISOString()); 
 }
 
 
