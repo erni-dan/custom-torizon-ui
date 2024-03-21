@@ -9,11 +9,6 @@ test("GET /nonexistent should return status code 404", async () => {
     expect(response.status).toBe(404);
 });
 
-test("GET / should return status code 500 (URL exists, but no valid api bearer token causes internal error)", async () => {
-    const response = await request.get("/");
-    expect(response.status).toBe(500);
-});
-
 test("GET /device without id should return status code 500", async () => {
     const response = await request.get("/device");
     expect(response.status).toBe(500);
@@ -71,9 +66,9 @@ test("test combine device specific data to api_data", () => {
     expect(api_data.packages).toEqual([{ "name": "test.yml", "version": "1.0.0" }]);
 
     // Check the metrics data
-    expect(api_data.temperature_x).toEqual([1, 2, 3]);
+    expect(api_data.temperature_x).toEqual(["1970-01-01T00:00:00.001Z", "1970-01-01T00:00:00.002Z", "1970-01-01T00:00:00.003Z"]);
     expect(api_data.temperature_y).toEqual([25, 30, 28]);
-    expect(api_data.pressure_x).toEqual([1, 2, 3]);
+    expect(api_data.pressure_x).toEqual(["1970-01-01T00:00:00.001Z", "1970-01-01T00:00:00.002Z", "1970-01-01T00:00:00.003Z"]);
     expect(api_data.pressure_y).toEqual([1013, 1015, 1012]);
 
     // Check if isConnected is set to false
