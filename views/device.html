@@ -392,14 +392,22 @@
         }
 
         var temp_graph = {
-            x: [{{ temp_x }}],
+            x: [
+                {% for time in temp_x %}
+                    "{{ time }}",
+                {% endfor %}
+            ],
             y: [{{ temp_y }}],
         type: 'scatter'
         };
         Plotly.newPlot('temp_plot', [temp_graph], layout, config);
 
         var mem_graph = {
-            x: [{{ mem_used_x }}],
+            x: [
+                {% for time in mem_used_x %}
+                    "{{ time }}",
+                {% endfor %}
+            ],
             y: [{{ mem_used_y }}],
         type: 'scatter'
         };

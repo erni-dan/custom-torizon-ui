@@ -30,7 +30,7 @@ router.get('/device', asyncHandler(async (req, res, next) => {
 
     // Request the data for device and packages from the Torizon API 
     const [device, packages, packages_external] = await Promise.all([
-        requestTorizonAPI( `/devices/${device_id}`),                 // request specific device
+        requestTorizonAPI(`/devices/${device_id}`),                 // request specific device
         requestTorizonAPI("/packages?idContains=docker-compose"),   // request user-added packages, but only for application (=docker-compose)
         requestTorizonAPI("/packages_external")]);                  // request packages from other sources, such as images published by Toradex.
 

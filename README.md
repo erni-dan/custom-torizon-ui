@@ -12,15 +12,14 @@ This repository contains code for an example of a custom web user interface (UI)
 
 * [vscode](https://code.visualstudio.com/)
 * Ubuntu 20.x, or
-* Windows (using WSL2 (Ubuntu 20.x)) <br/>
+* Windows (using WSL2 (Ubuntu 20.x)) \
 (For a detailed description see: [WSL](https://learn.microsoft.com/de-de/windows/wsl/setup/environment) )
 
 > [!TIP]  
 > If you are facing [internet connection issues under WSL](https://stackoverflow.com/questions/62314789/no-internet-connection-on-wsl-ubuntu-windows-subsystem-for-linux) add "nameserver 8.8.8.8" to your /etc/resolv.conf
 > or set "networkingMode=mirrored" to your [wslconfig](https://learn.microsoft.com/en-us/windows/wsl/wsl-config#wslconfig)
 
-
-**Furthermore**
+### Torizon prerequisites
 
 * minimum one device provisioned for torizon.io
   * [How-To provision a device](https://developer.toradex.com/torizon/torizon-platform/devices-fleet-management#provisioning-a-single-device)
@@ -49,13 +48,13 @@ To get started with the Toradex Custom Web UI, follow these steps:
 
 3. Install the dependencies via npm
 
-   ```
+   ```bash
    npm install & npm update
    ```
 
    This should install the following packages ([expressjs](https://expressjs.com/en/starter/hello-world.html), [nunjucks](https://mozilla.github.io/nunjucks/getting-started.html), [axios](https://axios-http.com/docs/intro) ), [dotenv](https://github.com/motdotla/dotenv):
 
-   ```
+   ```bash
     npm install express --save  // minimal web framework for routing and static files serving
     npm install nunjucks --save // html templates in jinja style
     npm install axios --save    // a promised based http client, supporting requests with Bearer token to access the torizon API
@@ -63,6 +62,7 @@ To get started with the Toradex Custom Web UI, follow these steps:
    ```
 
 4. Create a `.env` file in the root directory of your project if it doesn't exist already. Add the following configuration to it:
+
    ```plaintext
    TORIZON_API_TOKEN=your_token
    ```
@@ -73,37 +73,39 @@ To get started with the Toradex Custom Web UI, follow these steps:
 
 5. Start the app
 
-    ```
+    ```bash
     node run.js
     ```
 
     or
 
-     ```
+     ```bash
     npm run start
     ```
-6. Open your browser with [http://localhost:3000/](http://localhost:3000/)
 
+6. Open your browser with [http://localhost:3000/](http://localhost:3000/)
 
 ## Directory layout
 
-    .
-    ├── __test__           # the tests
-    ├── public             # all static resources for the web pages (e.g images, libs, ...) 
-    ├── routes             # backend implementation, handle the requests and respond with html pages
-    ├── utility            # helper modules
-    ├── views              # html templates (the UI without data)
-    ├── app.js             # defines the expressjs application, but does not start it
-    ├── package.json       # root of every Nodejs project, info about app, modules and packages, defines all npm scripts
-    |── README.md          
-    ├── run.js             # starts the application 
-    ├── torizon_api.js     # encapsuling a request client for the Torizon API
-
+```plaintext
+   .
+   ├── __test__           # the tests
+   ├── public             # all static resources for the web pages (e.g images, libs, ...) 
+   ├── routes             # backend implementation, handle the requests and respond with html pages
+   ├── utility            # helper modules
+   ├── views              # html templates (the UI without data)
+   ├── app.js             # defines the expressjs application, but does not start it
+   ├── package.json       # root of every Nodejs project, info about app, modules and packages, defines all npm scripts
+   |── README.md          
+   ├── run.js             # starts the application 
+   ├── torizon_api.js     # encapsuling a request client for the Torizon API
+```
 
 ## Customization
 
 You can add your own device images to the "public/img" folder and set the reference to your images via the "addDeviceImage()" function, which can be found in every HTML file.
-   ```
+
+   ```HTML
    <script>
       function addDeviceImage() {
             var deviceImage = document.getElementById("device_preview");
@@ -112,33 +114,39 @@ You can add your own device images to the "public/img" folder and set the refere
       }
    </script>
    ```
-   
+
 ## Development
 
-1. For the tests, you will need a node version > 14.x. 
-   Or you will see 
-   ```
+1. For the tests, you will need a node version > 14.x.
+   Or you will see
+
+   ```plaintext
    run.js:135 unexpected token if (error?.stack)"
    ```
+
    Install nvm, to update the nodejs version :
-   ```
+
+   ```bash
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
     //restart vscode 
     nvm install --lts //to download the latest long time supported nodejs version 
     nvm install node //to install the latest lts nodejs version 
    ```
 
-2. For development run 
-   ```
+2. For development run
+
+   ```bash
     npm run development //to start with nodemon, to see real time changes 
    ```
 
-3. For tests run 
-   ```
+3. For tests run
+
+   ```bash
     npm test
    ```
 
-3. For code coverage run 
-   ```
+4. For code coverage run
+
+   ```bash
     npm run coverage
    ```
