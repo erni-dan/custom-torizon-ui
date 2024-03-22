@@ -79,7 +79,8 @@
                                                 <img src="/public/img/robot_icon.png" alt="robot icon" id="device_preview_icon" style="height: 44px"/>
                                             </div>
                                             <div class="col-sm">
-                                                {% if isConnected %}
+                                                {# Compare the date now with the lastSeen date, if difference is less than 5 minutes we are connected #}
+                                                {% if (toDate()-toDate(device.lastSeen))/(1000 * 60) < 5 %}
                                                 <img src="/public/img/robot_icon_connected.png" alt="robot icon" style="height: 44px" />
                                                 {% else %}
                                                 <img src="/public/img/robot_icon_disconnected.png" alt="robot icon" style="height: 44px" />

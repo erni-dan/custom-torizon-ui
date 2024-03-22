@@ -71,9 +71,6 @@ test("test combine device specific data to api_data", () => {
     expect(api_data.pressure_x).toEqual(["1970-01-01T00:00:00.001Z", "1970-01-01T00:00:00.002Z", "1970-01-01T00:00:00.003Z"]);
     expect(api_data.pressure_y).toEqual([1013, 1015, 1012]);
 
-    // Check if isConnected is set to false
-    expect(api_data.isConnected).toBe(false);
-
     // Restore the original Date
     jest.useRealTimers()
 });
