@@ -14,7 +14,7 @@ function processDeviceMetrics(item_name, metrics, api_data) {
     api_data[item_name + "_y"] = temperature_values.map((tuple) => tuple[1]);
 
     // convert UNIX timestamp to human readable time in 24 hours mode
-    api_data[item_name + "_x"] = api_data[item_name + "_x"].map((unix_timestamp) => new Date(unix_timestamp).toISOString()); 
+    api_data[item_name + "_x"] = api_data[item_name + "_x"].map((unix_timestamp) => new Date(unix_timestamp).toISOString());
 }
 
 
@@ -24,7 +24,7 @@ function processDeviceMetrics(item_name, metrics, api_data) {
  */
 function reorderDevicePackages(device) {
     let boot, app, os;
-    const {data: {devicePackages}} = device;
+    const { data: { devicePackages } } = device;
     // Loop through device packages to reorder them
     devicePackages.forEach(pkg => {
         if (pkg.component.includes("-bootloader")) {
@@ -38,24 +38,6 @@ function reorderDevicePackages(device) {
     devicePackages[0] = app;
     devicePackages[1] = os;
     devicePackages[2] = boot;
-}
-
-
-/**
- * Sets the connection status based on the provided API data.
- *
- * @param {Object} api_data - The API data object.
- */
-function setConnectionStatus(api_data) {
-    const lastSeen = Date.parse(api_data.lastSeen);  // The last seen timestamp in ISO 8601 format.
-    const dateNow = Date.now();  //always bigger than lastSeen
-    const timeDifference = dateNow - lastSeen;
-    const minutesDifference = Math.floor(timeDifference / (1000 * 60));
-    api_data["isConnected"] = true;
-    if (minutesDifference > 5) {
-        // Time difference is bigger than 5 minutes. Default intervall for the device to send data is 5 minutes
-        api_data["isConnected"] = false;
-    }
 }
 
 
@@ -83,8 +65,6 @@ function combineDeviceData(device, metrics, packages, packages_external, request
     api_data["bootloader_packages_external"] =
         packages_external.data["values"].filter(item => { return item.name.includes("bootloader") && item.name.includes(os_filter) });
     api_data["packages"] = packages.data["values"];
-
-    setConnectionStatus(api_data);
 
     for (const metric of requested_metrics) {
         processDeviceMetrics(metric, metrics, api_data);

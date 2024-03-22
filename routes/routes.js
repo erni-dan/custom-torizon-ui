@@ -19,7 +19,6 @@ router.get('/', asyncHandler(async (req, res, next) => {
         throw new Error("No devices found. Please make sure that you have at least one device registered via Torizon.");
     }
 
-    console.log(devices_response.data);
     // Return the rendered index.html template with all registered devices
     res.render('index.html', devices_response.data);
 }));

@@ -53,7 +53,8 @@
                                     </li>
                                     <li class="nav-item">
                                         <a class="navbar-brand" href="#">
-                                            {% if isConnected %}
+                                            {# Compare the date now with the lastSeen date, if difference is less than 5 minutes we are connected #}
+                                            {% if (toDate()-toDate(lastSeen))/(1000 * 60) < 5 %}
                                             <img src="/public/img/robot_icon_connected.png" alt="robot icon" style="height: 44px" />
                                             {% else %}
                                             <img src="/public/img/robot_icon_disconnected.png" alt="robot icon" style="height: 44px" />
@@ -346,7 +347,6 @@
                 type: "GET",
                 data: data,
                 success: function (response) {
-                    console.log('Update successfully assigned to device : ' + "{{deviceUuid}}");
                     //change the update status to pending
                     document.getElementById("update_state_id").innerHTML = "<img src='/public/img/ok_red.png' />";
                     document.getElementById("update_id").innerHTML = "<img src='/public/img/ok_red.png' /><span style='color: #BF2200'>Pending updates</span>";
