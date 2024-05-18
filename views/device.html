@@ -209,7 +209,8 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-sm-4">
-                                            <a class="btn btn-primary btn-sm btn-block text-left"
+                                            {% if packages|length %}
+											<a class="btn btn-primary btn-sm btn-block text-left"
                                                 style="border-radius: 12px" onClick="requestUpdate()" href="javascript:void(0);">
                                                 <img src="/public/img/upload.png" /> Update Application
                                             </a>
@@ -229,6 +230,20 @@
                                                     {% endfor %}
                                                 </div>
                                             </div>
+                                            {% else %}
+ 											<a class="btn btn-secondary btn-sm btn-block text-left"
+                                                style="border-radius: 12px" onClick="alert('Update not possible, no docker-compose.yml files in your repository!')" href="javascript:void(0);">
+                                                <img src="/public/img/upload.png" /> Update Application
+                                            </a>
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-secondary border-0 dropdown-toggle"
+                                                    data-packageId="{{packages[0].packageId}}" type="button"
+                                                    id="dropdownUpdateApp" data-toggle="dropdown" aria-haspopup="true"
+                                                    aria-expanded="false">
+                                                    No updates available!
+                                                </button>
+                                            </div>
+                                            {% endif %}
                                         </div>
                                         <div class="col-sm-4">
                                             <a class="btn btn-secondary btn-sm btn-block text-left"
